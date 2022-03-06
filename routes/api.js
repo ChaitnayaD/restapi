@@ -15,10 +15,17 @@ router.post("/ninjas", (req, res, next) => {
 });
 //put a list of Ninjas
 router.put("/ninjas/:id", (req, res, next) => {
-  res.send({ type: "PUT" });
+  Ninja.findByIdAndUpdate({ _id: req.params.id }, req.body).then(() => {
+    Ninja.findOne({ _id: req.params.id }).then((ninja) => {
+      res.send(ninja);
+    });
+  });
 });
 //delete a list of Ninjas
 router.delete("/ninjas/:id", (req, res, next) => {
+  Ninja.findByIdAndRemove({ _id: req.params.id }).then((ninja) => {
+    res.send(ninja);
+  });
   res.send({ type: "DELETE" });
 });
 
